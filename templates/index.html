@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Source and Destination</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Ramaraja&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Set the height to 100% of the viewport */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            background-color: #4CAF50; /* Match the footer color */
+        }
+
+        .header {
+            height: 25vh; /* 25% of the viewport height */
+            background-color: rgba(255, 87, 51, 0.8); /* Red color with transparency */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center align all items */
+            color: white;
+            position: relative; /* Enable positioning for the logo */
+        }
+
+        .header h1 {
+            margin: 0;
+            flex-grow: 1; /* Allow the title to take available space */
+            text-align: center; /* Center text */
+            font-family: 'Ramaraja', cursive; /* Use Ramaraja font for header */
+            font-size: 4rem; /* Increased font size */
+            position: relative; /* Ensure proper stacking */
+            z-index: 1; /* Ensure title is above the logo */
+        }
+
+        .header img {
+            height: 90%; /* Logo takes 90% of the header height */
+            position: absolute; /* Position logo in the header */
+            top: 50%; /* Center vertically */
+            right: 20px; /* Align with the right edge */
+            transform: translateY(-50%); /* Adjust for vertical centering */
+            z-index: 0; /* Ensure logo is behind the title */
+        }
+
+        .main-content {
+            height: 55vh; /* 55% of the remaining height after the header */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            padding: 20px; /* Add padding around the main content */
+            width: 100%; /* Use full width */
+        }
+
+        .sub-header {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+            max-width: 1200px; /* Maximum width for the container */
+            width: 80%; /* Set to 80% of the screen width */
+            padding: 20px; /* Add padding for spacing */
+            margin: auto; /* Center align the container */
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: space-between; /* Space between dropdowns */
+            align-items: center; /* Center content vertically */
+            width: 100%; /* Use full width */
+            margin: 20px 0; /* Margin for spacing */
+        }
+
+        .form-group {
+            margin: 0 10px; /* Margin for left and right */
+            flex: 1; /* Allow the form groups to take equal space */
+            max-width: 300px; /* Limit width for better appearance */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%; /* Full width for the select boxes */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center the button */
+            margin-top: 20px; /* Space above the button */
+            width: 100%; /* Full width for the button container */
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #FF5733; /* Match button color with header */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #C70039; /* Darker shade for hover effect */
+        }
+
+        .image-gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            width: 100%; /* Full width for the image gallery */
+        }
+
+        .image-gallery img {
+            width: 150px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #4CAF50; /* Environment green color */
+            text-align: center;
+            color: white; /* White text for footer */
+            font-family: 'Pacifico', cursive; /* Use Pacifico font for footer */
+            font-size: 24px; /* Increase font size */
+            padding: 10px 0; /* Padding for spacing */
+            margin-top: auto; /* Push footer to the bottom */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>GITAM Transportation System</h1>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"> <!-- Replace with your image -->
+    </div>
+    <div class="main-content">
+        <div class="sub-header">
+            <main class="main-container">
+                <div class="image-gallery">
+                    <img src="{{ url_for('static', filename='images/bus1.jpg') }}" alt="Bus Image 1">
+                    <img src="{{ url_for('static', filename='images/bus2.jpg') }}" alt="Bus Image 2">
+                    <img src="{{ url_for('static', filename='images/bus3.jpg') }}" alt="Bus Image 3">
+                </div>
+                <form action="{{ url_for('search_buses') }}" method="POST">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="source">Source:</label>
+                            <select name="source" id="source" required>
+                                <option value="">Select Source</option>
+                                {% for source in sources %}
+                                    <option value="{{ source.source }}">{{ source.source }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destination">Destination:</label>
+                            <select name="destination" id="destination" required>
+                                <option value="">Select Destination</option>
+                                {% for destination in destinations %}
+                                    <option value="{{ destination.destination }}">{{ destination.destination }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button type="submit">Search Buses</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+    <div class="footer">
+        <h2>Eco Friendly</h2>
+    </div>
+</body>
+</html>

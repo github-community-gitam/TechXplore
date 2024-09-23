@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Buses</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Available Buses</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bus Name</th>
+                    <th>Available Seats</th>
+                    <th>Book Now</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bus in buses %}
+                <tr>
+                    <td>{{ bus.bus_name }}</td>
+                    <td>{{ bus.available_seats }}</td>
+                    <td>
+                        <form action="{{ url_for('book') }}" method="POST">
+                            <input type="hidden" name="bus_id" value="{{ bus.id }}">
+                            <label for="first_name_{{ bus.id }}">First Name:</label>
+                            <input type="text" name="first_name" id="first_name_{{ bus.id }}" required>
+
+                            <label for="last_name_{{ bus.id }}">Last Name:</label>
+                            <input type="text" name="last_name" id="last_name_{{ bus.id }}" required>
+
+                            <label for="mobile_number_{{ bus.id }}">Mobile Number:</label>
+                            <input type="text" name="mobile_number" id="mobile_number_{{ bus.id }}" required>
+
+                            <label for="seats_booked_{{ bus.id }}">Seats:</label>
+                            <input type="number" name="seats_booked" id="seats_booked_{{ bus.id }}" min="1" max="{{ bus.available_seats }}" required>
+
+                            <button type="submit">Book</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

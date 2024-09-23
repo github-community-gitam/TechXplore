@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Success</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Booking Successful</h1>
+    </header>
+    <main>
+        <p>Congratulations, {{ first_name }}!</p>
+        <p>You have successfully booked {{ seats_booked }} seat(s) on Bus ID {{ bus_id }}.</p>
+        <p>Please visit the boarding point on time. We look forward to serving you!</p>
+        <a href="{{ url_for('index') }}">Go back to Home</a>
+    </main>
+</body>
+</html>
